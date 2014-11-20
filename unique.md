@@ -52,11 +52,13 @@ We only need to work out the `getProbability(int n, int k, int i);` function. Th
 
 One calculates the probability of including the *i*-th element in the set given the original collection contains *n* elements and we pick *k*, by counting the number of subsets one can generate given the 
 
-$p\left(n,k,i\right)=\dfrac{{n-i-1 \choose k-1}}{{n \choose k}}$
+$p\left(n,k,i\right)=\frac{{{n-i-1} \choose {k-1}}}{{n \choose k}}$
 
 Where choosing *n* out of *k* is the number of subsets and choosing *k-1* out of *n-i-1* is the number of subsets that start with *i* since this means we will need to pick the remaining *k-1* elements out of the remaining elements in the set.
 
-If one simplifies this formula, 
+A more simplified version of this formula is:
+
+$p\left(n,k,i\right)=\frac{k\cdot\left(n-k\right)!\cdot\left(n-i-1\right)!}{n!\cdot\left(n-i-k\right)!}$
 
 ### Uniform selection
 
@@ -67,6 +69,8 @@ The social network application will generally not pick the items uniformly: if o
 ### Repeated selection
 
 ### `IJumpEnumerator<T>` instances
+
+Some `ICollection<T>` instances allow fast access: for instance a `List<T>` allows one to access element `5` in constant time. This is a useful feature 
 
 ### Dynamic programming implementation
 
