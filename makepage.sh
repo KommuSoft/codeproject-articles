@@ -1,2 +1,3 @@
+#!/bin/bash
 trgt=$(basename $1 ".md")
-pandoc -o "$trgt.htm" $1
+cat "template/header.htm" <$(pandoc -t htm $1) "footer.htm" > "$trgt.htm"
