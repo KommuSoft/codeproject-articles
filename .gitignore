@@ -5,3 +5,4 @@
 
 #Binaries
 *.htm*
+!template/*.htm
