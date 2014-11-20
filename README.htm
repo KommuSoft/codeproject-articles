@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--------------------------------------------------------------------------->  
+<!--                           INTRODUCTION                                
+
+ The Code Project article submission template (HTML version)
+
+Using this template will help us post your article sooner. To use, just 
+follow the 3 easy steps below:
+ 
+     1. Fill in the article description details
+     2. Add links to your images and downloads
+     3. Include the main article text
+
+That's all there is to it! All formatting will be done by our submission
+scripts and style sheets. 
+
+-->  
+<!--------------------------------------------------------------------------->  
+<!--                        IGNORE THIS SECTION                            -->
+<html>
+<head>
+<title>The Code Project</title>
+<Style>
+BODY, P, TD { font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 10pt }
+H2,H3,H4,H5 { color: #ff9900; font-weight: bold; }
+H2 { font-size: 13pt; }
+H3 { font-size: 12pt; }
+H4 { font-size: 10pt; color: black; }
+PRE { BACKGROUND-COLOR: #FBEDBB; FONT-FAMILY: "Courier New", Courier, mono; WHITE-SPACE: pre; }
+CODE { COLOR: #990000; FONT-FAMILY: "Courier New", Courier, mono; }
+</style>
+<link rel="stylesheet" type="text/css" href="http://www.codeproject.com/App_Themes/Std/CodeProject.css">
+</head>
+<body bgcolor="#FFFFFF" color=#000000>
+<!--------------------------------------------------------------------------->  
+
+
+<!-------------------------------     STEP 1      --------------------------->
+<!--  Fill in the details (CodeProject will reformat this section for you) -->
+<pre><code>Title:       The &quot;readme&quot; article
+Author:      KommuSoft
+Email:       (hidden)
+Language:    Mainly Markdown, and some `bash`, html and css.
+Platform:    Any platform
+Technology:  Markdown
+Level:       Beginner
+Description: Enter a brief description of your article
+Section      Web Development
+SubSection   HTML / CSS
+License:     The GNU General Public License (GPLv3)</code></pre>
+<h2 id="introduction">Introduction</h2>
+<p>This repository enables one to prepare, modify,... articles for <a href="http://www.codeproject.com/">CodeProject</a> without the need of actually modifying the given html template. One can simply write an <code>.md</code> file and run <code>make file.md</code> to convert it into a CodeProject article.</p>
+<h2 id="dependencies-installation">Dependencies (installation)</h2>
+<p>The repository depends on <code>bash</code>, <code>make</code>, <code>basename</code>, <code>cat</code> and <code>pandoc</code>. On a <em>Ubuntu/Debian</em> machine, you can ensure all these commands exist by running the following command:</p>
+<pre><code>sudo apt-get install coreutils make bash pandoc</code></pre>
+<p>to install all required packages.</p>
+<h2 id="generating-codeproject-articles">Generating CodeProject articles</h2>
+<p>First you need to write a CodeProject article in Markdown. You do this by creating a <code>.md</code> file in the root of this document, for instance <code>article.md</code>. You can write the article with any type of editor (for instance <code>vim</code>, or <em>ReText</em>).</p>
+<p>Next you run:</p>
+<pre><code>make article.htm</code></pre>
+<p>Where you replace <code>article.htm</code> with the name of your article (followed by <strong><code>.htm</code></strong>, not <code>.md</code>). The program will generate a .htm page formatted as a <em>CodeProject</em> article in the root directory, like this <a href="README.htm">one</a>.</p>
+<p>Next you submit your article <a href="http://www.codeproject.com/script/Articles/Submit.aspx"><em>CodeProject</em></a>.</p>
+<p>You can build all articles in the root repository in bulk by running:</p>
+<pre><code>make all</code></pre>
+<p>Or even shorter</p>
+<pre><code>make</code></pre>
+<h2 id="advantages">Advantages</h2>
+<p>The aim of this package is to enable an author to simply write his/her article, without having to worry that the header is formatted well, downloading the template package. As this repository will develop further, more sophisticated checking,... can be implemented.</p>
+<p>We think Markdown is more suited to write articles and pages, since one focuses more on the content than on the code surrounding that content. Markdown is an open format with editors like <em>ReText</em>. This holds for HTML as well, but HTML editors tend to provide an overwhelming WYSIWYG with features <em>CodeProject</em> articles probably will never need. Furthermore it is guaranteed to keep the page header and footer untouched.</p>
+<p>One of the development we target is the creation of a <code>.pdf</code> containing all the articles in a repository.</p>
+<!-------------------------------    That's it!   --------------------------->
+</body>
+
+</html>
