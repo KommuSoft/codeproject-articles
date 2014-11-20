@@ -50,6 +50,14 @@ We only need to work out the `getProbability(int n, int k, int i);` function. Th
 
 ## Probabilistic model
 
+One calculates the probability of including the *i*-th element in the set given the original collection contains *n* elements and we pick *k*, by counting the number of subsets one can generate given the 
+
+$p\left(n,k,i\right)=\dfrac{{n-i-1 \choose k-1}}{{n \choose k}}$
+
+Where choosing *n* out of *k* is the number of subsets and choosing *k-1* out of *n-i-1* is the number of subsets that start with *i* since this means we will need to pick the remaining *k-1* elements out of the remaining elements in the set.
+
+If one simplifies this formula, 
+
 ### Uniform selection
 
 ### Weighted items
