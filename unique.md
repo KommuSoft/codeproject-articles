@@ -58,7 +58,7 @@ The social network application will generally not pick the items uniformly: if o
 
 ### Repeated selection
 
-### Jump `IEnumerator<T>` instances
+### `IJumpEnumerator<T>` instances
 
 ### Dynamic programming implementation
 
@@ -68,7 +68,7 @@ Our algorithm has some extra advantages over the `ISet<T>` approach we discussed
 
 ### Cache
 
-If one iterates over an `Array` or `ArrayList`, the elements are located consecutive in the program's memory. Most processors facilitate this behavior by providing *cache*: a fast memory that maintains a copy of certain regions of the real memory. When an item is not in the cache, it is copied to the cache as well as surrounding memory cells.
+If one iterates over an `Array` or `List<T>`, the elements are located consecutive in the program's memory. Most processors facilitate this behavior by providing *cache*: a fast memory that maintains a copy of certain regions of the real memory. When an item is not in the cache, it is copied to the cache as well as surrounding memory cells.
 
 It is thus more efficient to iterate over a collection left to right than accessing element in a random order.
 
