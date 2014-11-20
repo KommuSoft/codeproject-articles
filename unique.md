@@ -1,4 +1,16 @@
-# A linear algorithm to generate (uniform) unique subsets
+<pre>
+Title:       A linear algorithm to generate (uniform) unique subsets
+Author:      KommuSoft
+Email:       Enter your Code Project E-mail Login (or the email you wish to use if not a member)
+Language:    C# 3.0, but applicable to any programming language
+Platform:    Any platform
+Technology:  Algorithms
+Level:       Pick ONE: Intermediate
+Description: Enter a brief description of your article
+Section      Enter the Code Project Section you Wish the Article to Appear
+SubSection   Enter the Code Project SubSection you Wish the Article to Appear
+License:     Enter the license (<a href="http://www.codeproject.com/info/licenses.aspx">CPOL, CPL, MIT, etc</a>)
+</pre>
 
 In some applications, like for instance social media, one needs to generate a subset of items out of a larger set of items. On *Facebook* for instance, people can enroll to a certain event. The social network then displays some of the people enlisted.
 
@@ -6,10 +18,52 @@ Several methods have been developed. A simple one is to create an empty set and 
 
 In this article, we propose a method that scales linearly with the number of items in the original collection. If the number of items to pick *k* is small, this algorithm will, given the original `ICollection<T>` allows random access not outperform the algorithm. If however the datastructure holding the original collection of elements only allows sequential access, or the number of items to pick *k* is close to the number of items in the collection *n*, our algorithm can outperform this.
 
-# Algorithm overview
+This article is structured as follows: we fist give an overview of the algorithm in pseudo-code and work out the probabilistic model. Next we consider weighted items, such that some items have a higher probability getting selected. Finally we look how we can speed up the algorithm given the collection provides an `Enumerator<T>` that can skip an arbitrary number of elements in constant time. We conclude this article by providing benchmark results for the discussed approach and the popular method using a `ISet<T>`.
 
-# Probabilistic model
+## Algorithm overview
 
-# Weighted items
+The algorithm iterates over the entire collection of items. *k* times, the algorithm select a random number between zero and one. Based on the position in the set and the number of items still to generate, a probability is determined in constant time for each element. Using the well known *Roulette-wheel selection* mechanism, one can guarantee *k* items are selected out of a set of *n* items uniformly.
+
+Our algorithm has thus the following form:
+
+    private static Random random = new Random();
+
+    public static IEnumerable<T> pickK (ICollection<T> collection, int k) {
+        int n = collection.Count;
+        IEnumerator<T> colenum = collection.GetEnumerator();
+        colenum.MoveNext();
+        double pi = getProbability(n,k,0);//get the probability of the first item being selected
+        for(; k > 0; k--) {
+            int i = 0;
+            double r = random.NextDouble();
+            while(r > pi) {
+                r -= pi;
+                i++;
+                colenum.MoveNext();
+                pi = getProbability(n,k,i);//get the probability of the i-th item being selected
+            }
+            yield return colenum.Current;
+            colenum.MoveNext();
+            n -= i+1;
+        }
+    }
+
+We only need to work out the `getProbability(int n, int k, int i);` function. This function will turn out to scale linear with *i*. This is however not a problem: *i* is incremented each time and we can thus use *dynamic programming* to calculate the probability in constant time given we already know the result of `getProbability(n,k,i-1)`. Later we will provide a method to calculate the method in constant time regardless of the value of *i*.
+
+## Probabilistic model
+
+## Weighted items
 
 The social network application will generally not pick the items uniformly: if one observers the subsets closely, one will notice *friends* pop up more often than total strangers. Social networks in other words give *weights* to items. Friends you frequently contact will have a higher weight than someone you only added a few years ago.
+
+## Micro-advantages
+
+Our algorithm has some extra advantages over the `ISet<T>` approach we discussed earlier. In this section we give an overview. Most of the advantages are not firm: there are scenarios where this can work in the opposite direction.
+
+### Cache
+
+If one iterates over an `Array` or `ArrayList`, the elements are located consecutive in the program's memory. Most processors facilitate this behavior by providing *cache*: a fast memory that maintains a copy of certain regions of the real memory. When an item is not in the cache, it is copied to the cache as well as surrounding memory cells.
+
+It is thus more efficient to iterate over a collection left to right than accessing element in a random order.
+
+### Maintaining order (stable algorithm)
