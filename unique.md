@@ -1,16 +1,14 @@
-<pre>
-Title:       A linear algorithm to generate (uniform) unique subsets
-Author:      KommuSoft
-Email:       Enter your Code Project E-mail Login (or the email you wish to use if not a member)
-Language:    C# 3.0, but applicable to any programming language
-Platform:    Any platform
-Technology:  Algorithms
-Level:       Pick ONE: Intermediate
-Description: Enter a brief description of your article
-Section      Enter the Code Project Section you Wish the Article to Appear
-SubSection   Enter the Code Project SubSection you Wish the Article to Appear
-License:     Enter the license (<a href="http://www.codeproject.com/info/licenses.aspx">CPOL, CPL, MIT, etc</a>)
-</pre>
+    Title:       A linear algorithm to generate (uniform) unique subsets
+    Author:      KommuSoft
+    Email:       Willem.VanOnsem@cs.kuleuven.be
+    Language:    C# 3.0, but applicable to any programming language
+    Platform:    Any platform
+    Technology:  Algorithms
+    Level:       Intermediate
+    Description: Enter a brief description of your article
+    Section      Enter the Code Project Section you Wish the Article to Appear
+    SubSection   Enter the Code Project SubSection you Wish the Article to Appear
+    License:     Enter the license (<a href="http://www.codeproject.com/info/licenses.aspx">CPOL, CPL, MIT, etc</a>)
 
 In some applications, like for instance social media, one needs to generate a subset of items out of a larger set of items. On *Facebook* for instance, people can enroll to a certain event. The social network then displays some of the people enlisted.
 
@@ -28,7 +26,7 @@ Our algorithm has thus the following form:
 
     private static Random random = new Random();
 
-    public static IEnumerable<T> pickK (ICollection<T> collection, int k) {
+    public static IEnumerable<T> pickK<T> (this ICollection<T> collection, int k) {
         int n = collection.Count;
         IEnumerator<T> colenum = collection.GetEnumerator();
         colenum.MoveNext();
