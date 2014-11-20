@@ -79,3 +79,9 @@ The algorithm will enumerate items in the same order as how they are enumerated 
 Sometimes the data is given in an order that is important: for instance the `Friend` instances are sorted alphabetically. If one uses the earlier discussed `ISet<T>` approach, but want's to sort the resulting subset, it can be necessary to sort the items again. 
 
 Furthermore in some cases, the order in the original collection does not depend on a property of the items itself: the friends are for instance sorted on the date the people became friends, a property not encoded in a `Friend` instance. This can be tackled by storing the index explicitly, but our method provides a more efficient way to handle this.
+
+## Tests
+
+### Empirical evidence of correctness
+
+### Benchmarks
