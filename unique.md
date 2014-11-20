@@ -50,9 +50,17 @@ We only need to work out the `getProbability(int n, int k, int i);` function. Th
 
 ## Probabilistic model
 
-## Weighted items
+### Uniform selection
+
+### Weighted items
 
 The social network application will generally not pick the items uniformly: if one observers the subsets closely, one will notice *friends* pop up more often than total strangers. Social networks in other words give *weights* to items. Friends you frequently contact will have a higher weight than someone you only added a few years ago.
+
+### Repeated selection
+
+### Jump `IEnumerator<T>` instances
+
+### Dynamic programming implementation
 
 ## Micro-advantages
 
@@ -65,3 +73,9 @@ If one iterates over an `Array` or `ArrayList`, the elements are located consecu
 It is thus more efficient to iterate over a collection left to right than accessing element in a random order.
 
 ### Maintaining order (stable algorithm)
+
+The algorithm will enumerate items in the same order as how they are enumerated by the given collection. This is a trivial feature since the `IEnumerator<T>` can only move forward in the `ICollection<T>`. 
+
+Sometimes the data is given in an order that is important: for instance the `Friend` instances are sorted alphabetically. If one uses the earlier discussed `ISet<T>` approach, but want's to sort the resulting subset, it can be necessary to sort the items again. 
+
+Furthermore in some cases, the order in the original collection does not depend on a property of the items itself: the friends are for instance sorted on the date the people became friends, a property not encoded in a `Friend` instance. This can be tackled by storing the index explicitly, but our method provides a more efficient way to handle this.
