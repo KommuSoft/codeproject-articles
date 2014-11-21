@@ -68,7 +68,10 @@ License:     The GNU General Public License (GPLv3)</code></pre>
 <h2 id="advantages">Advantages</h2>
 <p>The aim of this package is to enable an author to simply write his/her article, without having to worry that the header is formatted well, downloading the template package. As this repository will develop further, more sophisticated checking,... can be implemented.</p>
 <p>We think Markdown is more suited to write articles and pages, since one focuses more on the content than on the code surrounding that content. Markdown is an open format with editors like <em>ReText</em>. This holds for HTML as well, but HTML editors tend to provide an overwhelming WYSIWYG with features <em>CodeProject</em> articles probably will never need. Furthermore it is guaranteed to keep the page header and footer untouched.</p>
-<p>One of the development we target is the creation of a <code>.pdf</code> containing all the articles in a repository.</p>
+<h2 id="book-generation">Book generation</h2>
+<p>One can generate a book containing all the articles in this repository by running</p>
+<pre><code>make book</code></pre>
+<p>The script will produce a file called <code>book.pdf</code>. The program uses <code>pandoc</code> to convert the articles into their <code>latex</code> equivalent and then runs <code>pdflatex</code>.</p>
 <script language="JavaScript" src="http://math.etsu.edu/LaTeXMathML/LaTeXMathML.js">
 </script>
 <!-------------------------------    That's it!   --------------------------->

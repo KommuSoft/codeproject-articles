@@ -168,9 +168,15 @@ Furthermore in some cases, the order in the original collection does not depend 
 
 ### Real-time systems
 
-Average performance is not always the best metric. In *real-time systems*, one aims to guarantee the user that a task will be carried out within a certain time bound. An implementation with an `ISet<T>` cannot guarantee such bound: it is possible, although the probability decreases exponentially, that the algorithm keeps selecting numbers that are already in the set. Although the average performance is not that bad, the distribution of the run time has an infinite tail to the right that makes the algorithm impracticable for real time systems.
+Average performance is not always the best metric. In *real-time systems*, one aims to guarantee the user that a task will be carried out within a certain time bound. An implementation with an `ISet<T>` cannot guarantee such bound: it is possible, although the probability decreases exponentially, that the algorithm keeps selecting numbers that are already in the set. Although the average performance is not that bad, the distribution of the run time has an infinite tail to the right that makes the algorithm impracticable for real time systems. The proposed algorithm has a random component in it as well, but guarantees progress: there is a moment where it is guaranteed the algorithm has finished its job.
 
 ### Constant memory laziness
+
+As one can see, our algorithm uses the `yield` keyword: it is implemented as a co-routine. This is useful if there is any chance, one for instance wants to generate a subset of length *k*, but for instance, is only interested in the first $l<k$ items. Or when for instance the first items don't satisfy a certain criterion.
+
+In the *LINQ* library, many algorithm are implemented as co-routines to enable such behavior. A problem with some of the algorithms is that as more items are generated, the tend to build up memory. In cases where *LINQ* queries are combined in a long chain, this can result in a large amount of memory building up, that is released after a significant amount of time.
+
+Our algorithm doesn't allocate more memory each time. The number and size of local variables  is constant. The only possible way memory is allocated during the evaluation is the algorithm hidden in the `IEnumerator<T>`, no algorithm can have control on the behavior of encapsulated methods.
 
 ## Tests
 
