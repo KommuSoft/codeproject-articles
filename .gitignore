@@ -3,6 +3,12 @@
 *.*~*
 *.bak
 
+#TeXies
+*.tex
+*.log
+*.aux
+*.pdf
+
 #Binaries
 *.htm*
 !template/*.htm

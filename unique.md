@@ -19,7 +19,7 @@ Several methods have been developed. A simple one is to create an empty set and 
 
 In this article, we propose a method that scales linearly with the number of items in the original collection. If the number of items to pick *k* is small, this algorithm will, given the original `ICollection<T>` allows random access not outperform the algorithm. If however the datastructure holding the original collection of elements only allows sequential access, or the number of items to pick *k* is close to the number of items in the collection *n*, our algorithm can outperform this.
 
-This article is structured as follows: we fist give an overview of the algorithm in pseudo-code and work out the probabilistic model. Next we consider weighted items, such that some items have a higher probability getting selected. Finally we look how we can speed up the algorithm given the collection provides an `Enumerator<T>` that can skip an arbitrary number of elements in constant time. We conclude this article by providing benchmark results for the discussed approach and the popular method using a `ISet<T>`.
+This article is structured as follows: we fist give an overview of the algorithm in pseudo-code and work out the probabilistic model. Next we consider weighted items, such that some items have a higher probability getting selected. Finally we look how we can speed up the algorithm given the collection provides an `Enumerator<T>` that can skip an arbitrary number of elements in constant time using *Stirling approximation*. We conclude this article by providing benchmark results for the discussed approach and the popular method using a `ISet<T>`.
 
 ## Algorithm overview
 
@@ -130,11 +130,25 @@ $p\left(n,k,i,\vec{w}\right)=\frac{{{n-i-1} \choose {k-1}}\cdot w_i}{{n \choose 
 
 ### `IJumpEnumerator<T>` instances
 
-Some `ICollection<T>` instances allow fast access: for instance a `List<T>` allows one to access element `5` in constant time. This is a useful feature 
+Some `ICollection<T>` instances allow fast access: for instance a `List<T>` allows one to access element `5` in constant time. This is a useful feature if the number of items to select *k* is small compared to *n*.
+
+We first describe the `IJumpEnumerator<T>` interface:
+
+    public interface IJumpEnumerator<out T> : IEnumerator<T> {
+    
+        bool Jump (int delta);
+    
+    }
+
+This is simply an interface that provides an additional method `bool Jump(int delta)` that has the same behavior as calling `IEnumerator<T>.MoveNext()`, `delta` times.
+
+The *Stirling approximation* is a method to approximate a factorial using the sum over a logarithm and then, approximate that sum by using an integral:
+
+$\log\left(n!\right)=\log\left(\prod_{i=1}^{n}i\right)=\sum_{i=1}^n\log\left(i\right)\approx\int_{1}^{n}\log{x}\ dx=n\cdot\log\left(n\right)-n$
 
 ### Dynamic programming implementation
 
-## Micro-advantages
+## Advantages
 
 Our algorithm has some extra advantages over the `ISet<T>` approach we discussed earlier. In this section we give an overview. Most of the advantages are not firm: there are scenarios where this can work in the opposite direction.
 
@@ -151,6 +165,8 @@ The algorithm will enumerate items in the same order as how they are enumerated 
 Sometimes the data is given in an order that is important: for instance the `Friend` instances are sorted alphabetically. If one uses the earlier discussed `ISet<T>` approach, but want's to sort the resulting subset, it can be necessary to sort the items again. 
 
 Furthermore in some cases, the order in the original collection does not depend on a property of the items itself: the friends are for instance sorted on the date the people became friends, a property not encoded in a `Friend` instance. This can be tackled by storing the index explicitly, but our method provides a more efficient way to handle this.
+
+### Real-time systems
 
 ### Constant memory laziness
 

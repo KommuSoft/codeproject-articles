@@ -23,7 +23,7 @@ The repository depends on `bash`, `make`, `basename`, `cat` and `pandoc`. On a *
 
 to install all required packages. Or run:
 
-    sudo make install
+    make install
 
 ## Generating CodeProject articles
 
@@ -51,4 +51,10 @@ The aim of this package is to enable an author to simply write his/her article, 
 
 We think Markdown is more suited to write articles and pages, since one focuses more on the content than on the code surrounding that content. Markdown is an open format with editors like *ReText*. This holds for HTML as well, but HTML editors tend to provide an overwhelming WYSIWYG with features *CodeProject* articles probably will never need. Furthermore it is guaranteed to keep the page header and footer untouched.
 
-One of the development we target is the creation of a `.pdf` containing all the articles in a repository.
+## Book generation
+
+One can generate a book containing all the articles in this repository by running
+
+    make book
+
+The script will produce a file called `book.pdf`. The program uses `pandoc` to convert the articles into their `latex` equivalent and then runs `pdflatex`.
