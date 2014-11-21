@@ -176,7 +176,7 @@ As one can see, our algorithm uses the `yield` keyword: it is implemented as a c
 
 In the *LINQ* library, many algorithm are implemented as co-routines to enable such behavior. A problem with some of the algorithms is that as more items are generated, the tend to build up memory. In cases where *LINQ* queries are combined in a long chain, this can result in a large amount of memory building up, that is released after a significant amount of time.
 
-Our algorithm doesn't allocate more memory each time. The number and size of local variables  is constant. The only possible way memory is allocated during the evaluation is the algorithm hidden in the `IEnumerator<T>`, no algorithm can have control on the behavior of encapsulated methods.
+Our algorithm doesn't allocate more memory each time. The number and size of local variables  is constant. The only possible way memory is allocated during the evaluation is the algorithm hidden in the `IEnumerator<T>`, no algorithm can have control on the behavior of encapsulated methods. A classic example for this algorithm is an SQL database where the rows are in many cases generated on the fly (thus the additional linear overhead is limited) and where one certainly doesn't want to use a Las Vegas algorithm.
 
 ## Tests
 
