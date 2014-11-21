@@ -21,7 +21,9 @@ The repository depends on `bash`, `make`, `basename`, `cat` and `pandoc`. On a *
 
     sudo apt-get install coreutils make bash pandoc
 
-to install all required packages.
+to install all required packages. Or run:
+
+    sudo make install
 
 ## Generating CodeProject articles
 
