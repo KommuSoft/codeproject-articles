@@ -128,7 +128,7 @@ $p\left(n,k,i,\vec{w}\right)=\frac{{{n-i-1} \choose {k-1}}\cdot w_i}{{n \choose 
 
 ### Repeated selection
 
-### `IJumpEnumerator<T>` instances
+### Approximation algorithm for `IJumpEnumerator<T>` instances
 
 Some `ICollection<T>` instances allow fast access: for instance a `List<T>` allows one to access element `5` in constant time. This is a useful feature if the number of items to select *k* is small compared to *n*.
 
@@ -145,6 +145,18 @@ This is simply an interface that provides an additional method `bool Jump(int de
 The *Stirling approximation* is a method to approximate a factorial using the sum over a logarithm and then, approximate that sum by using an integral:
 
 $\log\left(n!\right)=\log\left(\prod_{i=1}^{n}i\right)=\sum_{i=1}^n\log\left(i\right)\approx\int_{1}^{n}\log{x}\ dx=n\cdot\log\left(n\right)-n$
+
+The problem with the Stirling approximation is however that for small values, the relative error is quite large. A more advanced approximation is the *Gosper approximation*:
+
+$\log\left(n!\right)\approx\log\left(\sqrt{\frac{\left(6\cdot n+2\right)\cdot\pi}{3}}\right)+n\cdot\log\left(n\right)-n$
+
+or in a more useful form for the remainder of this section:
+
+$\log\left(\frac{n!}{\left(n-k\right)!}\right)\approx\log\left(\sqrt{\frac{6\cdot n+1}{6\cdot n-6\cdot k+1}}\right)+n\cdot\log\left(\frac{n}{n-k}\right)+k\cdot\log\left(n-k\right)+k$
+
+We can use these approximations, to approximate the value for $p\left(n,k,i\right)$ in constant time with:
+
+p\left(n,k,i\right)=
 
 ### Dynamic programming implementation
 
@@ -170,13 +182,15 @@ Furthermore in some cases, the order in the original collection does not depend 
 
 Average performance is not always the best metric. In *real-time systems*, one aims to guarantee the user that a task will be carried out within a certain time bound. An implementation with an `ISet<T>` cannot guarantee such bound: it is possible, although the probability decreases exponentially, that the algorithm keeps selecting numbers that are already in the set. Although the average performance is not that bad, the distribution of the run time has an infinite tail to the right that makes the algorithm impracticable for real time systems. The proposed algorithm has a random component in it as well, but guarantees progress: there is a moment where it is guaranteed the algorithm has finished its job.
 
+A classic example for this algorithm is an SQL database where the rows are in many cases generated on the fly (thus the additional linear overhead is limited) and where one certainly doesn't want to use a Las Vegas algorithm.
+
 ### Constant memory laziness
 
 As one can see, our algorithm uses the `yield` keyword: it is implemented as a co-routine. This is useful if there is any chance, one for instance wants to generate a subset of length *k*, but for instance, is only interested in the first $l<k$ items. Or when for instance the first items don't satisfy a certain criterion.
 
 In the *LINQ* library, many algorithm are implemented as co-routines to enable such behavior. A problem with some of the algorithms is that as more items are generated, the tend to build up memory. In cases where *LINQ* queries are combined in a long chain, this can result in a large amount of memory building up, that is released after a significant amount of time.
 
-Our algorithm doesn't allocate more memory each time. The number and size of local variables  is constant. The only possible way memory is allocated during the evaluation is the algorithm hidden in the `IEnumerator<T>`, no algorithm can have control on the behavior of encapsulated methods. A classic example for this algorithm is an SQL database where the rows are in many cases generated on the fly (thus the additional linear overhead is limited) and where one certainly doesn't want to use a Las Vegas algorithm.
+Our algorithm doesn't allocate more memory each time. The number and size of local variables  is constant. The only possible way memory is allocated during the evaluation is the algorithm hidden in the `IEnumerator<T>`, no algorithm can have control on the behavior of encapsulated methods.
 
 ## Tests
 
