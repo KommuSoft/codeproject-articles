@@ -182,6 +182,14 @@ Our algorithm doesn't allocate more memory each time. The number and size of loc
 
 ### Empirical evidence of correctness
 
+In order to verify the correctness of our algorithm, we ran three types of tests:
+
+ - Verifying that the number of enumerated items is always equal to *k*;
+ - Verify that the original order of the items is maintained; and
+ - Running the test several times, counting the number of times a certain item is enumerated and comparing this number with the confidence interval.
+ 
+The tests are all implemented in the `ProbabilityUtilsTest.cs` file and all past several times. We can thus assume that our algorithm is correct.
+
 ### Benchmarks
 
 ## Context
