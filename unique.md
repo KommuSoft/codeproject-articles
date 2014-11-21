@@ -104,6 +104,28 @@ The algorithm to pick *k* elements uniformly out of the collection is thus:
 
 The social network application will generally not pick the items uniformly: if one observers the subsets closely, one will notice *friends* pop up more often than total strangers. Social networks in other words give *weights* to items. Friends you frequently contact will have a higher weight than someone you only added a few years ago.
 
+We provided an interface to assign weight to an item called the `IWeight` interface:
+
+    public interface IWeight {
+
+        double Weight {
+            get;
+        }
+
+    }
+
+Where `IWeight.Weight` must be a **positive** value ($0\leq w_i$).
+
+We now need to redefine our probability function `getProbability(int n, int k,int i)` such that it takes into account a vector of weights $\vec{w}$.
+
+We first make an assumption we will eventually relax: the sum of the weights sum up to one:
+
+$\displaystyle\sum_{i=1}^n{w_i}=1$
+
+In that case the probability of selecting the *i*-th value as the first value in the subset is:
+
+$p\left(n,k,i,\vec{w}\right)=\frac{{{n-i-1} \choose {k-1}}\cdot w_i}{{n \choose k}}$
+
 ### Repeated selection
 
 ### `IJumpEnumerator<T>` instances
