@@ -90,7 +90,7 @@ The algorithm to pick *k* elements uniformly out of the collection is thus:
             while(r > pi) {
                 r -= pi;
                 colenum.MoveNext();
-                pi *= (n-k-i)/(n-i-1);//get the probability of the i-th item being selected
+                pi *= (double) (n-k-i)/(n-i-1);//get the probability of the i-th item being selected
                 i++;
             }
             yield return colenum.Current;
