@@ -10,6 +10,9 @@
     SubSection   Enter the Code Project SubSection you Wish the Article to Appear
     License:     Enter the license (<a href="http://www.codeproject.com/info/licenses.aspx">CPOL, CPL, MIT, etc</a>)
 
+ - [algorithm source code]()
+ - [article source code](https://github.com/KommuSoft/codeproject-articles/blob/master/unique.md)
+
 In some applications, like for instance social media, one needs to generate a subset of items out of a larger set of items. On *Facebook* for instance, people can enroll to a certain event. The social network then displays some of the people enlisted.
 
 Several methods have been developed. A simple one is to create an empty set and keep adding items to the set until the required number has been achieved. If duplicates are added, the size of the set simply remains the same. A problem with this approach is that it can take long to generate such subsets. Especially if the number of items to pick is close to the total number of items. Furthermore sets are either implemented as a binary tree, or as a hash set. Although the lookup operation is on average case logarithmic or constant respectively, in the case of a hash set it can turn out to be linear. Furthermore it requires one to define a good order relation or hash function. An aspect many programmers lack. The worst case time complexity is thus either *O(k log k)* or *O(k^2)* at least, with *k* the number of items to pick. Finally some datastructures don't allow random access (in the literal sense): one cannot query an `ISet<T>` for a the *i*-th element or a random element.
@@ -30,15 +33,15 @@ Our algorithm has thus the following form:
         int n = collection.Count;
         IEnumerator<T> colenum = collection.GetEnumerator();
         colenum.MoveNext();
-        double pi = getProbability(n,k,0);//get the probability of the first item being selected
         for(; k > 0; k--) {
+            double pi = getProbability(n,k,0);//get the probability of the first item being selected
             int i = 0;
             double r = random.NextDouble();
             while(r > pi) {
                 r -= pi;
-                i++;
                 colenum.MoveNext();
-                pi = getProbability(n,k,i);//get the probability of the i-th item being selected
+                pi = getProbability(n,k,i);//get the probability of the i-th item being
+                i++; selected
             }
             yield return colenum.Current;
             colenum.MoveNext();
@@ -50,6 +53,10 @@ We only need to work out the `getProbability(int n, int k, int i);` function. Th
 
 ## Probabilistic model
 
+In this section, we will discuss probabilistic models to select *k* elements out of a collection of *n* elements with uniform and weighted probability as well as a scenario where picking the same element again is allowed as well.
+
+### Uniform selection
+
 One calculates the probability of including the *i*-th element in the set given the original collection contains *n* elements and we pick *k*, by counting the number of subsets one can generate given the 
 
 $p\left(n,k,i\right)=\frac{{{n-i-1} \choose {k-1}}}{{n \choose k}}$
@@ -60,7 +67,38 @@ A more simplified version of this formula is:
 
 $p\left(n,k,i\right)=\frac{k\cdot\left(n-k\right)!\cdot\left(n-i-1\right)!}{n!\cdot\left(n-i-k\right)!}$
 
-### Uniform selection
+although the formula may look more complicated, it has the advantage one can easily turn it into an incremental formula: given $p\left(n,k,i)$ is known, what is the value for $p\left(n,k,i+1)$:
+
+$p\left(n,k,i+1\right)=\frac{p\left(n,k,i\right)\cdot\left(n-k-i\right)}{n-i-1}$
+
+And furthermore, evidently the value for $i=0$ is equal to:
+
+$p\left(n,k,0\right)=\frac{n}{k}$
+
+Note that the probabilities decrease with *i* increasing. Indeed, if we decide not to pick the first element, that choice is definitive. The probability of picking the first item must thus be larger than picking for instance the fifth one.
+
+The algorithm to pick *k* elements uniformly out of the collection is thus:
+
+    public static IEnumerable<T> pickKUniform<T> (this ICollection<T> collection, int k) {
+        int n = collection.Count;
+        IEnumerator<T> colenum = collection.GetEnumerator();
+        colenum.MoveNext();
+        for(; k > 0; k--) {
+            double pi = (double) k/n;//get the probability of the first item being selected
+            int i = 0;
+            double r = random.NextDouble();
+            while(r > pi) {
+                r -= pi;
+                colenum.MoveNext();
+                pi *= (n-k-i)/(n-i-1);//get the probability of the i-th item being selected
+                i++;
+            }
+            yield return colenum.Current;
+            colenum.MoveNext();
+            n -= i+1;
+        }
+    }
+
 
 ### Weighted items
 
@@ -91,6 +129,8 @@ The algorithm will enumerate items in the same order as how they are enumerated 
 Sometimes the data is given in an order that is important: for instance the `Friend` instances are sorted alphabetically. If one uses the earlier discussed `ISet<T>` approach, but want's to sort the resulting subset, it can be necessary to sort the items again. 
 
 Furthermore in some cases, the order in the original collection does not depend on a property of the items itself: the friends are for instance sorted on the date the people became friends, a property not encoded in a `Friend` instance. This can be tackled by storing the index explicitly, but our method provides a more efficient way to handle this.
+
+### Constant memory laziness
 
 ## Tests
 
