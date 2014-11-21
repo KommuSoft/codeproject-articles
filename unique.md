@@ -168,6 +168,8 @@ Furthermore in some cases, the order in the original collection does not depend 
 
 ### Real-time systems
 
+Average performance is not always the best metric. In *real-time systems*, one aims to guarantee the user that a task will be carried out within a certain time bound. An implementation with an `ISet<T>` cannot guarantee such bound: it is possible, although the probability decreases exponentially, that the algorithm keeps selecting numbers that are already in the set. Although the average performance is not that bad, the distribution of the run time has an infinite tail to the right that makes the algorithm impracticable for real time systems.
+
 ### Constant memory laziness
 
 ## Tests
@@ -175,3 +177,9 @@ Furthermore in some cases, the order in the original collection does not depend 
 ### Empirical evidence of correctness
 
 ### Benchmarks
+
+## Context
+
+This research was conducted in the context of the [NUtils](https://github.com/KommuSoft/NUtils) library, a utility library I'm developing in my spare time. The library aims to make my (real) research work more convenient.
+
+## History
