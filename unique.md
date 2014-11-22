@@ -142,21 +142,23 @@ We first describe the `IJumpEnumerator<T>` interface:
 
 This is simply an interface that provides an additional method `bool Jump(int delta)` that has the same behavior as calling `IEnumerator<T>.MoveNext()`, `delta` times.
 
+We first derive the probability $q\left(n,k,j\right)$ that of selecting an index *j* or lower as 
+
+$q\left(n,k,j\right)=\sum_{i=0}^{j} p\left(n,k,i\right)=\sum_{i=0}^{j} \frac{k\cdot\left(n-k\right)!\cdot\left(n-i-1\right)!}{n!\cdot\left(n-i-k\right)!}=1-\frac{\left(n-k\right)!\left(n-j-1\right)!}{n!\cdot\left(n-j-1-k\right)!}$
+
+We now can use two methods to compute such formula in constant time: (1) using **dynamic programming**, where we store a table of factorials so that we can look them up in constant time; or (2) use an **approximation** to calculate the formula approximatively. In the case of dynamic programming, generating the table requires *O(n)* time, but should only be calculated once, if we pick items multiple times, the marginal cost to calculate the formula is constant time.
+
 The *Stirling approximation* is a method to approximate a factorial using the sum over a logarithm and then, approximate that sum by using an integral:
 
-$\log\left(n!\right)=\log\left(\prod_{i=1}^{n}i\right)=\sum_{i=1}^n\log\left(i\right)\approx\int_{1}^{n}\log{x}\ dx=n\cdot\log\left(n\right)-n$
-
-The problem with the Stirling approximation is however that for small values, the relative error is quite large. A more advanced approximation is the *Gosper approximation*:
-
-$\log\left(n!\right)\approx\log\left(\sqrt{\frac{\left(6\cdot n+2\right)\cdot\pi}{3}}\right)+n\cdot\log\left(n\right)-n$
+$\log\left(n!\right)=\log\left(\prod_{i=1}^{n}i\right)=\sum_{i=1}^n\log\left(i\right)\approx\int_{1}^{n}\log{x}\ dx=n\cdot\log\left(n\right)-n+O\left(\right)$
 
 or in a more useful form for the remainder of this section:
 
-$\log\left(\frac{n!}{\left(n-k\right)!}\right)\approx\log\left(\sqrt{\frac{6\cdot n+1}{6\cdot n-6\cdot k+1}}\right)+n\cdot\log\left(\frac{n}{n-k}\right)+k\cdot\log\left(n-k\right)+k$
+$\log\left(\frac{n!}{\left(n-k\right)!}\right)\approx\left(n+\frac{1}{2}\right)\cdot\log\left(\frac{n}{n-k}\right)+k\cdot\left(\log\left(n-k\right)-1\right)$
 
 We can use these approximations, to approximate the value for $p\left(n,k,i\right)$ in constant time with:
 
-p\left(n,k,i\right)=
+$\log\left(p\left(n,k,i\right)\right)\approx$
 
 ### Dynamic programming implementation
 
