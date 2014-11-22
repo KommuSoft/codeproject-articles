@@ -158,7 +158,7 @@ $\log\left(\frac{n!}{\left(n-k\right)!}\right)\approx\left(n+\frac{1}{2}\right)\
 
 We can use these approximations, to approximate the value for $p\left(n,k,i\right)$ in constant time with:
 
-$\log\left(p\left(n,k,i\right)\right)\approx$
+$\log\left(1-q\left(n,k,j\right)\right)\approx\left(n+\frac{1}{2}\right)\cdot\log\left(\frac{n}{n-k}\right)+k\cdot\left(\log\left(n-k\right)-1\right)$
 
 ### Dynamic programming implementation
 
