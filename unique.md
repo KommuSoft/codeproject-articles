@@ -158,9 +158,9 @@ $\log\left(\frac{n!}{\left(n-k\right)!}\right)\approx\left(n+\frac{1}{2}\right)\
 
 We can use these approximations, to approximate the value for $p\left(n,k,i\right)$ in constant time with:
 
-$\log\left(1-q\left(n,k,j\right)\right)\approx \left(n-j-1+\frac{1}{2}\right)\cdot\log\left(\frac{n-j-1}{n-j-1-k}\right)+k\cdot\log\left(n-j-1-k\right)-k\log\left(n-k\right)-\left(n+\frac{1}{2}\right)\cdot\log\left(\frac{n}{n-k}\right)$
+$\log\left(1-q\left(n,k,j\right)\right)\approx \left(n-j-1+\frac{1}{2}\right)\cdot\log\left(\frac{n-j-1}{n-j-1-k}\right)+k\cdot\log\left(\frac{n-j-1-k}{n-k}\right)-\left(n+\frac{1}{2}\right)\cdot\log\left(\frac{n}{n-k}\right)$
 
-### Dynamic programming implementation
+Computing the probability in constant time does not specify the position where it is located.
 
 ## Advantages
 
