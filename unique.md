@@ -158,9 +158,13 @@ $\log\left(\frac{n!}{\left(n-k\right)!}\right)\approx\left(n+\frac{1}{2}\right)\
 
 We can use these approximations, to approximate the value for $p\left(n,k,i\right)$ in constant time with:
 
-$\log\left(1-q\left(n,k,j\right)\right)\approx \left(n-j-1+\frac{1}{2}\right)\cdot\log\left(\frac{n-j-1}{n-j-1-k}\right)+k\cdot\log\left(\frac{n-j-1-k}{n-k}\right)-\left(n+\frac{1}{2}\right)\cdot\log\left(\frac{n}{n-k}\right)$
+$\log\left(1-q\left(n,k,j\right)\right)\approx\left(n-j-1+\frac{1}{2}\right)\cdot\log\left(\frac{n-j-1}{n-j-1-k}\right)+k\cdot\log\left(\frac{n-j-1-k}{n-k}\right)-\left(n+\frac{1}{2}\right)\cdot\log\left(\frac{n}{n-k}\right)$
 
-Computing the probability in constant time does not specify the position where it is located.
+Or by using algebraic manipulation, one can move all terms that do not depend on *j* to the left:
+
+$\log\left(1-q\left(n,k,j\right)\right)+\left(n+\frac{1}{2}\right)\cdot\log\left(n\right)-\left(n-k+\frac{1}{2}\right)\cdot\log\left(n-k\right)\approx\left(n-j-\frac{1}{2}\right)\cdot\log\left(n-j-1\right)-\left(n-j-\frac{1}{2}-k\right)\cdot\log\left(n-j-1-k\right)$
+
+The algebraic manipulation doesn't seem to allow to calculate the value for *j* fast given $q\left(n,k,j\right)$.
 
 ## Advantages
 
